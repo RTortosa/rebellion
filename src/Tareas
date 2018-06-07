@@ -1,0 +1,64 @@
+Implementar:
+    - Componentes Fase
+    - Lógica juego
+    - Imagen personalizada
+    - Abandonar Juego ¿Que pasa?
+    - CSS
+    - Animaciones
+    - PopUp Victoria / Derrota
+    - Objeto con las raglas (numero de personas en el equipo, etc)
+    - PopUp añadir el numero de espías que hay como información
+
+Arreglar:
+    - Hacer que el chat se actualize cuando halla un child nuevo,
+    - Poner mínimo de jugadores para poder empezar la partida.
+    - Impedir unirse partida iniciada
+    - Eliminar la marca de seleccionado en el popUp de facción
+    - Logo con dos L "Rebellion"
+    - Chat Auto scroll
+
+
+    - Refactorizar
+
+
+Futuro:
+    - Crear pantalla con las partidas en curso y si hay sitio
+    - Menu abajo en iOs
+
+
+Hecho:
+** 27.05.18 **
+    - Unirse a la partida cuando todos estén listos
+    - Menu secciones (chat, juego, perfil)
+** 28.05.18 **
+    - Pantallas juego
+    - Componentes imagen jugador/lider
+** 29.05.18 **
+    - Componentes Chat // Se muestra el mesaje según el origen
+    - PopUp sensible al estado con su lógica (abrir/ cerrar)
+** 30.05.18 **
+    - CSS preliminar Inicio / Espera / PopUp(Agente) / Menu
+** 31.05.18 **
+    - CSS prelim. Perfil
+    - Chat - Mensajes del propio jugador en su sitio
+** 01.06.18 **
+    - Scroll chat
+    - Css Componente jugador
+** 04.06.18 **
+    - Css componente Lider
+    - Fix grid Juego
+    - Componente Fases
+    - Comp.Fase Elegir Equipo
+** 05.06.18 **
+    - Comp.Fase votacionEquipo.
+    - Seleccionar Jugador Funciona + cambio Fase
+** 06.06.18 **
+    - Comp.Fase Aprobar
+    - Añadisos iconos Juego
+    - Mostrar resultado Votacion cuando toca
+    - Comp. Fase Misión
+    - Fin de partida por lider rechazado
+
+** 07.06.18 **
+
+
