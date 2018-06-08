@@ -1,25 +1,23 @@
 Implementar:
-    - Componentes Fase
     - Lógica juego
     - Imagen personalizada
     - Abandonar Juego ¿Que pasa?
-    - CSS
     - Animaciones
-    - PopUp Victoria / Derrota
-    - Objeto con las raglas (numero de personas en el equipo, etc)
-    - PopUp añadir el numero de espías que hay como información
+    - Pantalla Victoria / Derrota
+    - Error pantalla principal /*** Revisar ***/
+    - Añadir soporte a Promise para llamar a las acciones unas detrás de la otra
+    - Mision cambiar imágen espera
+    - Se ha perdido el lider
 
 Arreglar:
     - Hacer que el chat se actualize cuando halla un child nuevo,
     - Poner mínimo de jugadores para poder empezar la partida.
     - Impedir unirse partida iniciada
-    - Eliminar la marca de seleccionado en el popUp de facción
+     // - Eliminar la marca de seleccionado en el popUp de facción
     - Logo con dos L "Rebellion"
     - Chat Auto scroll
 
-
-    - Refactorizar
-
+    - Refactorizar (Siempre)
 
 Futuro:
     - Crear pantalla con las partidas en curso y si hay sitio
@@ -58,7 +56,17 @@ Hecho:
     - Mostrar resultado Votacion cuando toca
     - Comp. Fase Misión
     - Fin de partida por lider rechazado
-
 ** 07.06.18 **
+    - Implementado algoritmo de asignación de roles
+    - Fix PopUp Agente
+    - Fix PopUp Espía (con fotos jugadores espías)
+    - Implementa la función que asigna el lider por orden de juego.
+    - Fix Mostrar Votos (ahora se oculta para todos los jugadores)
+    - Fix Contenedor Fase (Tamaños agignados)
+    - Objetos con las reglas (nº agentes equipo, nº espías)
+** 08.06.18 **
+    - Fin de juego (éxito/fracaso)
+    - Fix elegir líder (a veces no elegía líder)
+    - Componente Fin partida básico
 
 

@@ -3,12 +3,12 @@
         <div id="popUp">
             <h3>Bienvenido al equipo</h3>
             <h4 class="popUp__nombreJugador">{{jugadores[idJugador].nombre}}</h4>
-            <img v-if="checkFaccion === 'agente'" src="../../assets/logoAgente.svg" alt="LogoEspia">
-            <img v-else-if="checkFaccion === 'espia'"  src="../../assets/logoEspia.svg" alt="LogoAgente">
-            <div v-if="checkFaccion === 'espia' ">
+            <img class="popUp__logoFaccion" v-if="checkFaccion === 'agente'" src="../../assets/logoAgente.svg" alt="LogoEspia">
+            <img class="popUp__logoFaccion" v-else-if="checkFaccion === 'espia'"  src="../../assets/logoEspia.svg" alt="LogoAgente">
+            <div id="popUp__ContenedorEspias" v-if="checkFaccion === 'espia' ">
                 <h5>Espías</h5>
                 <template v-for="espia in getEspias">
-                    <jugadorNormal :jugador="espia"></jugadorNormal>
+                    <jugadorNormal class="jugador" :jugador="espia"></jugadorNormal>
                 </template>
             </div>
             <div id="popUp__contenedorTexto">
@@ -90,6 +90,7 @@
         padding: 5%;
         font-family: 'Exo 2', sans-serif;
     }
+    /*#popUp > * { border: 1px solid yellow;}*/
 
     #popUp > h3 {
         font-size: 1.8rem;
@@ -99,23 +100,44 @@
         font-family: 'Audiowide', cursive;
         font-size: 1.2rem;
     }
+    #popUp .popUp__logoFaccion {
+        flex-shrink: 0;
+    }
     #popUp__contenedorTexto {
         height: 24%;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: space-around;
     }
 
-    #popUp__contenedorTexto .textoFaccion1 {
+    #popUp__contenedorTexto .popUp__textoFaccion1 {
         font-weight: bold;
         font-size: 1.1rem;
     }
 
-    #popUp__contenedorTexto .lineaSeparadora {
+    #popUp__contenedorTexto .popUp__lineaSeparadora {
         width: 95%;
         border: 1px solid #2E4D69;
     }
-
+    #popUp__ContenedorEspias{
+        display: flex;
+        flex-basis: 20%;
+        max-height: 17%;
+        width: 100%;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+    #popUp__ContenedorEspias > h5 {
+        flex-basis: 100%;
+        text-align: left;
+        color: #2E4D69;
+        margin-bottom: 3px;
+    }
+    #popUp__ContenedorEspias .jugador {
+        flex-basis: 22%;
+        max-width: 22%;
+        height: 80%;
+    }
     #popUp__btnOk {
         width: 60%;
         color: white;

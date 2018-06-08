@@ -48,6 +48,10 @@
             clickListo() {
                 //Si el boton pone Empezar y hacemos click empezamos la partida
                 if (this.estadoBoton === 'Empezar') {
+                    // asignar roles
+                    this.setRoles();
+                    this.setLider();
+                    //Cuando Acabe hacemos lo siguiente *** Implementar PROMISE ***
                     this.iniciarPartida(); // Set flag Partida Iniciada
                     this.siguientePantalla();
                 }else {
@@ -61,13 +65,14 @@
                 } else this.borrarJugador();
                 this.anteriorPantalla();
             },
-            ...mapActions(['setListo', 'setNombre', 'borrarJugador', 'borrarPartida', 'iniciarPartida']),
+            ...mapActions(['setListo', 'setNombre', 'borrarJugador', 'borrarPartida', 'iniciarPartida',
+            'setRoles','setLider']),
             ...mapMutations(['siguientePantalla', 'anteriorPantalla']),
         },
         computed: {
             estadoBoton() {
-                if (!this.checkListo) return 'Listo'
-                else if (this.checkCreador && this.checkListo && this.todosListos) return 'Empezar'
+                if (!this.checkListo) return 'Listo';
+                else if (this.checkCreador && this.checkListo && this.todosListos) return 'Empezar';
                 else if (this.checkListo) return 'Esperando'
             },
             checkCondicionesIniciarPartida() {
@@ -208,6 +213,7 @@
         margin-bottom: 5px;
         display: flex;
         justify-content: flex-start;
+        align-content: flex-start;
         flex-wrap: wrap;
     }
     #salaEspera__contJugadores .jugador {

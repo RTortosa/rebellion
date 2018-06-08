@@ -44,8 +44,8 @@ export const store = new Vuex.Store({
             9: [3, 4, 4, 5, 5],
             10: [3, 4, 4, 5, 5]
         },
-        tablaEspias:{ // numero de espías [nº jugadores: nº espias]
-            5: 2,  6: 2,  7: 3,  8: 3,  9: 3,  10: 4,
+        tablaEspias: { // numero de espías [nº jugadores: nº espias]
+            5: 2, 6: 2, 7: 3, 8: 3, 9: 3, 10: 4,
         },
 
         // Datos on-line
@@ -86,9 +86,6 @@ export const store = new Vuex.Store({
                 origen: "sistema1 / sistema2 / jugadorX"
             }
         },
-    },
-    watch: {
-        // meter watch por si la partida desaparece hacer algo
     },
     mutations: {
         irPantalla(state, pantalla) {
@@ -149,6 +146,12 @@ export const store = new Vuex.Store({
         checkVotacionTerminada: (state, getters) => {
             return getters.getJugadoresRestantes === 0
         },
+        checkFinDePartida: (state, getters) => {
+
+            if (getters.getIntentosRestantes < 0) return true;
+            else return getters.getVictoriaDerrota !== false;
+
+        },
         todosListos: (state) => { // ¿Todos los jugadores Listos?
             let ready = true;
             for (let jugador in state.jugadores) {
@@ -156,6 +159,7 @@ export const store = new Vuex.Store({
             }
             return ready;
         },
+
         getLider: (state) => { // Devielve la ID del líder actual
             for (let jugador in state.jugadores) {
                 if (state.jugadores[jugador].lider) return jugador
@@ -166,7 +170,7 @@ export const store = new Vuex.Store({
             let tipoVotacion = state.datos.faseActual;
             if (tipoVotacion === 2)
                 return Object.keys(getters.getJugadoresEquipo).length;
-            else if (tipoVotacion === 1)
+            else /*if (tipoVotacion === 1)*/
                 return Object.keys(state.jugadores).length;
         },
         getEspias: (state) => { // devuelve todos los espías de la partida
@@ -202,7 +206,7 @@ export const store = new Vuex.Store({
             return state.datos.resultadoRondas[ronda];
         },
         getFaseActual: (state) => {
-            return state.datos.fases[state.datos.faseActual]
+            return state.datos.fases[state.datos.faseActual];
         },
         getVotoJugador: (state) => {
             let tipoVotacion = state.datos.faseActual;
@@ -256,7 +260,7 @@ export const store = new Vuex.Store({
                     if (state.jugadores[jugador].votoMision === true)
                         resultado++;
                 }
-                if (state.datos.rondaActual === 4){ // Mision 4 necesita 2 votos en contra
+                if (state.datos.rondaActual === 4) { // Mision 4 necesita 2 votos en contra
                     if (getters.getNumeroVotosNegativos < 2)
                         return 'Éxito';
                     else return 'Fracaso'
@@ -279,9 +283,19 @@ export const store = new Vuex.Store({
             return 4 - state.datos.liderRechazadoVeces
         },
         getJugadoresRestantes: (state, getters) => {
-            return   getters.getNumeroJugadores - getters.getNumeroVotos
+            return getters.getNumeroJugadores - getters.getNumeroVotos
         },
-
+        getVictoriaDerrota: (state) => { // Cuenta el numero de éxitos o fracasos
+            let victoria = 0;
+            let derrota = 0;
+            for (let ronda in state.datos.resultadoRondas){
+                if (state.datos.resultadoRondas[ronda] === 'Éxito') victoria++;
+                if (state.datos.resultadoRondas[ronda] === 'Fracaso') derrota++;
+            }
+            if (victoria >= 3) return 'victoria';
+            else if (derrota >=3) return 'derrota';
+            else return false;
+        },
     },
     actions: {
 //------------- App.vue
@@ -301,15 +315,15 @@ export const store = new Vuex.Store({
 
             store.state.db.ref(store.state.idPartida + '/jugadores/' + store.state.idJugador).update({
                 nombre: '',
-                listo: false,
-                foto: "url",
-                creador: crea,
-                equipo: false,
-                lider: false,
-                faccion: 'no',
+                listo: false, // Lobby Jugador listo o no listo
+                foto: "url", // Url de la imagen del jugador
+                creador: crea, // true -> ha creado, false -> se ha unido
+                equipo: false, // true -> integrante del equipo.
+                lider: false, // true -> Es el líder actual.
+                faccion: 'agente', // 'agente' , 'espia'
                 votoMision: '',
-                votoEquipo: '',
-                votoPositivo: '',
+                votoEquipo: '', // '' -> Sin voto, true -> A favor, false -> En contra
+                // votoPositivo: '',
 
             });
 
@@ -320,8 +334,8 @@ export const store = new Vuex.Store({
             // Creamos la partida en firebase
             store.state.db.ref(idPartida).set({
                 datos: {
-                    iniciada: false,
-                    liderRechazadoVeces: 0,
+                    iniciada: false, // Variable para iniciar el juego
+                    liderRechazadoVeces: 0,  // 5 -> Game Over
                     // resultadoRondas: 'exito', 'fracaso', 'actual', 'futura'
                     resultadoRondas: {
                         ronda1: 'actual',
@@ -330,10 +344,12 @@ export const store = new Vuex.Store({
                         ronda4: 'futura',
                         ronda5: 'futura',
                     },
-                    rondaActual: 0,
+                    rondaActual: 1,
+                    faseActual: 0,
+                    fases: ['Elegir Equipo', 'Aprobar Equipo', 'Misión'],
                 },
                 jugadores: false,
-                chat: {
+                chat: { // Mensaje de bienvenida
                     '-LDXXpb5nE0Y7ryqyUHw': {
                         mensaje: 'Bienvenidos al chat de Rebellion',
                         origen: 'sistema2',
@@ -384,6 +400,67 @@ export const store = new Vuex.Store({
                 .ref('/' + store.state.idPartida + '/datos/')
                 .update({'iniciada': true});
         },
+        setRoles(store) {
+            let nJug = store.getters.getNumeroJugadores;
+            let nEspias = store.state.tablaEspias[nJug]; // número espía a asignar
+
+            let asignados = 0; //
+            let espiaAsignado = {}; //objeto con los jugadores que son espías
+
+            for (let i = 0; i < nJug; i++) { //Asigna el rol de espia a un jugador rnd sin repetir
+                if (asignados < nEspias) {
+                    let rnd = Math.floor(Math.random() * nJug);
+                    if (espiaAsignado['player' + rnd] !== true && rnd !== nJug) {
+                        espiaAsignado['player' + rnd] = true;
+                        asignados++;
+                    } else i--;
+                }
+            }
+            for (let jugador in espiaAsignado) { // Actualiza el rol en la base de datos¡
+                store.state.db
+                    .ref('/' + store.state.idPartida + '/jugadores/' + jugador)
+                    .update({'faccion': 'espia'});
+            }
+        },
+        setLider(store) {
+            let nJug = Object.keys(store.state.jugadores).length;
+
+            if (store.getters.getLider === false) { // Set lider rnd si no hay
+                let rnd = 'player' + (Math.floor(Math.random() * nJug));
+                store.state.db
+                    .ref('/' + store.state.idPartida + '/jugadores/' + rnd)
+                    .update({'lider': true});
+
+            } else if (store.getters.getLider === ('player' + (nJug - 1))) {
+                // Sí el líder es el último jugador el lider es el primer jugador
+                store.state.db
+                    .ref('/' + store.state.idPartida + '/jugadores/player' + (nJug - 1))
+                    .update({'lider': false});
+                store.state.db
+                    .ref('/' + store.state.idPartida + '/jugadores/player0/')
+                    .update({'lider': true});
+
+            } else { // Si hay lider
+                let liderAct = store.getters.getLider; //guardamos lider Actual
+                let anteriorJugadorEsLider = false;
+
+                for (let jugador in store.state.jugadores) { // Recorremos Jugadores
+                    if (jugador === liderAct) { // Si es el lider se lo quitamos
+                        store.state.db
+                            .ref('/' + store.state.idPartida + '/jugadores/' + jugador)
+                            .update({'lider': false});
+                        anteriorJugadorEsLider = true; // y seteamos que el jugador anterior era lider
+                    } else if (anteriorJugadorEsLider === true) {
+                        // Si el anterior jugador era lider nombramos líder a el actual
+                        store.state.db
+                            .ref('/' + store.state.idPartida + '/jugadores/' + jugador)
+                            .update({'lider': true});
+                        anteriorJugadorEsLider = false; // Y el anterior ya no es el lider
+                    }
+                }
+            }
+
+        },
         setListo(store) {
             let estado = !store.state.jugadores[store.state.idJugador].listo;
             store.state.db
@@ -409,38 +486,54 @@ export const store = new Vuex.Store({
                 });
         },
 // ---------------- juego
-        setJugadorEquipo (store, jugador) {
+        setJugadorEquipo(store, jugador) {
             let faseActual = store.state.datos.faseActual;
-            let lider =store.state.jugadores[store.state.idJugador].lider;
-            if (faseActual === 0 && lider === true){
+            let lider = store.state.jugadores[store.state.idJugador].lider;
+            if (faseActual === 0 && lider === true) {
                 // Si eres lider y estamos en la fase de elegir equipo fase '0'
                 let toggle = !store.state.jugadores[jugador].equipo;
                 store.state.db
                     .ref('/' + store.state.idPartida + '/jugadores/' + jugador)
-                    .update({'equipo' : toggle});
+                    .update({'equipo': toggle});
             }
         },
-        setVotoEquipo(store, voto){
+        setVotoEquipo(store, voto) {
             store.state.db
                 .ref('/' + store.state.idPartida + '/jugadores/' + store.state.idJugador)
                 .update({'votoEquipo': voto});
         },
-        setVotoMision(store, voto){
+        setVotoMision(store, voto) {
             store.state.db
                 .ref('/' + store.state.idPartida + '/jugadores/' + store.state.idJugador)
                 .update({'votoMision': voto});
         },
-        setFaseActual(store, fase){
+        setFaseActual(store, fase) {
             store.state.db
                 .ref('/' + store.state.idPartida + '/datos/')
                 .update({'faseActual': fase});
         },
-        setLiderRechazadoVeces(store, veces){
+        setLiderRechazadoVeces(store, veces) {
             store.state.db
                 .ref('/' + store.state.idPartida + '/datos/')
                 .update({'liderRechazadoVeces': veces});
         },
-    },
+        setResultadoRonda (store, resultado){
+            let rondaActual = store.state.datos.rondaActual;
+            let nombreRonda = 'ronda' + rondaActual;
+            store.state.db
+                .ref('/' + store.state.idPartida + '/datos/resultadoRondas/')
+                .update({[nombreRonda]: resultado});
 
+            rondaActual++;
+            nombreRonda = 'ronda' + rondaActual;
+            store.state.db
+                .ref('/' + store.state.idPartida + '/datos/resultadoRondas/')
+                .update({[nombreRonda]: 'actual'});
+
+            store.state.db
+                .ref('/' + store.state.idPartida + '/datos/')
+                .update({'rondaActual': rondaActual});
+        }
+    },
 });
 

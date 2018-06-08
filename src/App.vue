@@ -4,11 +4,7 @@
         <inicio v-if="pantallaActual === 'inicio'"></inicio>
         <espera v-if="pantallaActual === 'espera'"></espera>
         <juego v-if="pantallaActual === 'juego'"></juego>
-        <test v-if="pantallaActual === 'fin'"></test>
-
-        <!--Temporal-->
-        <!--<button @click="siguientePantalla">siguientePantalla</button>-->
-
+        <fin v-if="pantallaActual === 'fin'"></fin>
 
     </div>
 </template>
@@ -17,11 +13,10 @@
     import inicio from './components/inicio.vue';
     import espera from './components/espera.vue';
     import juego from './components/juego.vue';
-    import test from './components/test.vue';
+    import fin from './components/fin.vue';
 
     import {mapState} from 'vuex';
     import {mapActions} from 'vuex';
-    import {mapMutations} from 'vuex';
 
     export default {
         data() {
@@ -33,12 +28,10 @@
             inicio,
             espera,
             juego,
-            test,
+            fin,
         },
         methods:{
             ...mapActions(['getPartidasEnCurso']),
-            //...mapMutations(['siguientePantalla'])
-
         } ,
         computed: mapState(['pantallaActual']),
 

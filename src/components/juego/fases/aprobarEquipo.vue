@@ -68,21 +68,20 @@
                 this.votoTemporal ='';
             },
             clickOk () {
-                this.votosVisible(false);
-                if (this.getResultadoVotacion === 'Aceptado'){
+                if (this.getResultadoVotacion === 'Aprobado'){
                     this.setLiderRechazadoVeces(0); // setear lider rechazado a 0
                     this.setFaseActual(2); // Cambio a fase Misión
 
                 } else {
-                    // set LiderRechazado a su valor +1
+                    // seteamos LiderRechazado a su valor +1
                     this.setLiderRechazadoVeces(5 - this.getIntentosRestantes);
+                    this.setLider(); // Nuevo Lider
                     this.setFaseActual(0) // Volver elegir equipo
-
-                    // Cambiar al siguiente líder
                 }
+
             },
             ...mapMutations(['votosVisible']),
-            ...mapActions (['setVotoEquipo','setFaseActual','setLiderRechazadoVeces']),
+            ...mapActions (['setVotoEquipo','setFaseActual','setLiderRechazadoVeces','setLider']),
         },
         watch: { // No usar arrow function,
             // Cuando se dan las condiciones Muestra el resultado de la votación

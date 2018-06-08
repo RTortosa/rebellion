@@ -2,7 +2,7 @@
     <div class="jugador">
         <div v-show="jugador.equipo" class="seleccionado"></div>
         <div class="fotoFrame">
-            <img :src="jugador.foto" alt="">
+            <img class="fotoJugador" :src="jugador.foto" alt="">
             <h2 class="nombreJugador">{{jugador.nombre}}</h2>
             <div v-show="votacionEstado" class="votoJugador">
                 <img v-if="jugador.votoEquipo === true" src="../../assets/Voto_Si_Player.svg" alt="Sí">
@@ -31,6 +31,10 @@
         height: 100%;
         width: 100%;
         overflow: hidden;
+    }
+    .jugador .fotoFrame .fotoJugador {
+        height: 100%;
+        width: auto;
     }
     .jugador .fotoFrame .votoJugador {
         width: 100%;

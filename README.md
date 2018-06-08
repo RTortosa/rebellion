@@ -1,4 +1,4 @@
-# appvue
+# Rebellion
 
 > Aplicacion Rebelion en Vue
 

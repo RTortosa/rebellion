@@ -42,27 +42,29 @@
                 this.seccion = apartado;
             },
             ...mapActions(['setVotoMision','setVotoEquipo']),
-            ...mapMutations(['siguientePantalla', 'anteriorPantalla']),
+            ...mapMutations(['siguientePantalla', 'anteriorPantalla','votosVisible']),
         },
         computed: {
             // ...mapState(['jugadores', 'idPartida', 'idJugador',]),
-            ...mapGetters(['getFaseActual','getIntentosRestantes']),
+            ...mapGetters(['getFaseActual','checkFinDePartida']),
         },
         watch: { // No usar arrow function,
             getFaseActual: function(value) {
                 // Cuando volvemos a la fase de elegir Equipo resetea las votaciones anteriores
                 if (value === 'Elegir Equipo') {
+                    this.votosVisible(false);
                     this.setVotoEquipo('');
                     this.setVotoMision('');
+                } else if (value === 'Misión'){
+                    this.votosVisible(false);
                 }
             },
-            getIntentosRestantes: function(value) {
-                if (value === -1){
+            checkFinDePartida: function(value) {
+                if (value){
                     this.siguientePantalla();
                 }
             }
         },
-
 
     }
 
@@ -85,7 +87,7 @@
 
     }
     #menu > button {
-        padding: 5px 0 3px 0;
+        padding: 10px 0 7px 0;
         flex-basis: 33.3%;
         background-color: #2E4D69;
         border: none;

@@ -90,19 +90,19 @@
     #juegoMain #contadorRondas #textoRonda {
         font-size: 1.5rem ;
     }
-    #juegoMain #contadorRondas .exito,
-    #juegoMain #contadorRondas .fracaso,
+    #juegoMain #contadorRondas .Éxito,
+    #juegoMain #contadorRondas .Fracaso,
     #juegoMain #contadorRondas .actual,
     #juegoMain #contadorRondas .futura {
         border-radius: 50%;
         height: 17px;
         width: 17px;
     }
-    #juegoMain #contadorRondas .exito {
+    #juegoMain #contadorRondas .Éxito {
         border: 1px solid #2E4D69;
         background-color: #2E4D69;
     }
-    #juegoMain #contadorRondas .fracaso {
+    #juegoMain #contadorRondas .Fracaso {
         border: 1px solid #C13123;
         background-color: #C13123;
     }
@@ -119,11 +119,14 @@
         justify-content: space-between;
     }
     #juegoMain #faseLider #jugadorLider {
-
+        flex-basis: 40%;
+        height: 95%;
+        align-self: end;
     }
     #juegoMain #faseLider #contenedorFase {
         /*border: 1px solid yellow;*/
         margin-left: 5%;
+        flex-basis: 60%;
         flex-grow: 1;
 
     }

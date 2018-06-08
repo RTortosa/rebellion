@@ -11,7 +11,7 @@
                 <img v-else src="../../../assets/Voto_No.svg" alt="">
             </div>
         </div>
-        <div @click="clickListo" class="botonListo"> Listo </div>
+        <div @click="clickListo" class="botonListo"> Listo</div>
     </div>
 
 
@@ -40,10 +40,7 @@
     import {mapState, mapGetters, mapActions, mapMutations} from 'vuex';
 
     export default {
-        created() {
-            // this.setVotoEquipo('');
-        },
-        data () {
+        data() {
             return {
                 votoTemporal: '',
             }
@@ -51,94 +48,116 @@
 
         computed: {
 
-              ...mapGetters(['checkEquipo','checkVotado','checkCreador','checkVotacionTerminada',
-                  'getResultadoVotacion','getNumeroVotosNegativos',
-                  'getNumeroJugadores','getNumeroVotos',]),
+            ...mapGetters(['checkEquipo', 'checkVotado', 'checkCreador', 'checkVotacionTerminada',
+                'getResultadoVotacion', 'getNumeroVotosNegativos',
+                'getNumeroJugadores', 'getNumeroVotos',]),
         },
         methods: {
-            clickListo () {
+            clickListo() {
                 this.setVotoMision(this.votoTemporal);
-                this.votoTemporal ='';
+                this.votoTemporal = '';
             },
-            clickOk(){
+            clickOk() {
+                this.setResultadoRonda(this.getResultadoVotacion);
+                // Set resultado ronda
+                // Ronda ++
+                this.setLider();
+                // setLider
+                this.setFaseActual(0);
+                // Set fase actual a 'Elegir Equipo'
 
             },
-            ...mapActions(['setVotoMision']),
+            ...mapActions(['setVotoMision', 'setResultadoRonda', 'setLider','setFaseActual']),
         },
+
     }
 </script>
 
 <style>
-        #misionVotar,
-        #misionEsperando,
-        #misionResultado,{
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-        #misionResultado .textoAyuda,
-        #misionEsperando .textoAyuda2,
-        #misionVotar .textoAyuda {
-            color: #2E4D69;
-            text-align: right;
-            font-size: 0.8rem;
-        }
+    #misionVotar,
+    #misionEsperando,
+    #misionResultado {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
 
-        #misionEsperando .textoAyuda {
-            color: #2E4D69;
-            text-align: left;
-            font-size: 0.8rem;
-        }
-        #misionVotar .contenedorVotos {
-            display: flex;
-            justify-content: space-around;
-        }
-        #misionVotar .botonListo {
-            padding-bottom: 5px;
-            text-align: center;
-            font-family: 'Audiowide', cursive;
-            font-size: 1.2rem;
-            background-image: url("../../../assets/Btn_2.svg");
-            background-size: 60% 100%;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
-        #misionResultado .textoInfo {
-            font-size: 1rem;
-        }
-        #misionResultado .textoInfo3 {
-            font-size: 0.8rem;
-            text-align: center;
-            color: #E5C513;
-        }
-        #misionResultado .textoInfo2 {
-            font-size: 0.8rem;
-            text-align: center;
-            color: #2E4D69;
-        }
-        #misionResultado .resultado {
-            font-size: 1.2rem;
-            font-family: 'Audiowide', cursive;
-            text-align: right;
-        }
-        #misionResultado .resultado.Fracaso { color: #C13123; }
-        #misionResultado .resultado.Éxito { color: #E5C513; }
+    #misionResultado .textoAyuda,
+    #misionEsperando .textoAyuda2,
+    #misionVotar .textoAyuda {
+        color: #2E4D69;
+        text-align: right;
+        font-size: 0.8rem;
+    }
 
-        #misionResultado .textoEsperandoFase {
-            text-align: center;
-            font-family: 'Audiowide', cursive;
-            font-size: 1.2rem;
-        }
-        #misionResultado .textoSiguienteFase {
-            padding-bottom: 5px;
-            text-align: center;
-            font-family: 'Audiowide', cursive;
-            font-size: 1.2rem;
-            background-image: url("../../../assets/Btn_2.svg");
-            background-size: 60% 100%;
-            background-repeat: no-repeat;
-            background-position: center;
-        }
+    #misionEsperando .textoAyuda {
+        color: #2E4D69;
+        text-align: left;
+        font-size: 0.8rem;
+    }
+
+    #misionVotar .contenedorVotos {
+        display: flex;
+        justify-content: space-around;
+    }
+
+    #misionVotar .botonListo {
+        padding-bottom: 5px;
+        text-align: center;
+        font-family: 'Audiowide', cursive;
+        font-size: 1.2rem;
+        background-image: url("../../../assets/Btn_2.svg");
+        background-size: 60% 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    #misionResultado .textoInfo {
+        font-size: 1rem;
+    }
+
+    #misionResultado .textoInfo3 {
+        font-size: 0.8rem;
+        text-align: center;
+        color: #E5C513;
+    }
+
+    #misionResultado .textoInfo2 {
+        font-size: 0.8rem;
+        text-align: center;
+        color: #2E4D69;
+    }
+
+    #misionResultado .resultado {
+        font-size: 1.2rem;
+        font-family: 'Audiowide', cursive;
+        text-align: right;
+    }
+
+    #misionResultado .resultado.Fracaso {
+        color: #C13123;
+    }
+
+    #misionResultado .resultado.Éxito {
+        color: #E5C513;
+    }
+
+    #misionResultado .textoEsperandoFase {
+        text-align: center;
+        font-family: 'Audiowide', cursive;
+        font-size: 1.2rem;
+    }
+
+    #misionResultado .textoSiguienteFase {
+        padding-bottom: 5px;
+        text-align: center;
+        font-family: 'Audiowide', cursive;
+        font-size: 1.2rem;
+        background-image: url("../../../assets/Btn_2.svg");
+        background-size: 60% 100%;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
 
 </style>

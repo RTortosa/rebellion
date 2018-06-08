@@ -10,15 +10,11 @@
             <input type="text" v-if="crear" v-model="IDTemp" placeholder="Crear ID # 44 55 66">
             <span id="inicio__Error" class="rojo">{{msg}}</span>
         </div>
-
     </div>
-
 </template>
 
 <script>
-    import {mapState, mapActions} from 'vuex'; //Importamos el mapeador de Vuex
-
-
+    //import {mapState, mapActions} from 'vuex'; //Importamos el mapeador de Vuex
     export default {
         data() {
             return {
@@ -38,7 +34,6 @@
                         this.$store.commit('siguientePantalla');
 
                     } else this.mostrarMensaje('La partida ya existe'); // mostrar error
-
                 } else this.crear = true;
             },
             unirseClick() {
@@ -68,11 +63,11 @@
                 }.bind(this), 1500); // sin bind no va. PREGUNTAR
             },
         },
-        ...mapActions(['']),
-        // no hace falta mapearlas porque las llamo explicitamente en Js
+        //...mapActions(['']),
+        // no hace falta mapearlas porque las llamo explicitamente en Js por probar un poco como se hace :)
 
         computed: {
-            ...mapState(['estados', 'punteroEstado', 'partidasCurso',]),
+            //...mapState(['', '', '',]),
             //...mapGetters(['checkSitio', 'checkPartida']),
         },
 
@@ -91,20 +86,27 @@
         flex-direction: column;
         justify-content: space-between;
     }
-    #inicio > span {color: #2e4d69; }
+
+    #inicio > span {
+        color: #2e4d69;
+    }
+
     #inicio > h1 {
         text-align: center;
         font-size: 2.8rem;
     }
-    #inicio__Logo   {
+
+    #inicio__Logo {
         height: 65%;
     }
+
     #inicio__Botones {
         width: 100%;
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
     }
+
     #inicio__Botones button, #inicio__Botones input {
         /*flex-basis: 50%;*/
         flex-grow: 1;
@@ -117,20 +119,24 @@
         font-family: 'Audiowide', cursive;
 
     }
+
     #inicio__Botones.activado button, #inicio__Botones.activado input {
         /*Clase para activar y hacer la animación de los botones con js*/
     }
-    #inicio__Botones input { font-size: 0.9rem; }
+
+    #inicio__Botones input {
+        font-size: 0.9rem;
+    }
+
     #inicio__Botones button {
         font-size: 1.2rem;
         background-color: #0d1f3e;
 
-        background-size: contain ;
+        background-size: contain;
         background-repeat: no-repeat;
     }
 
-
-    #inicio__Error{
+    #inicio__Error {
         font-family: 'Exo 2', sans-serif;
         text-align: center;
         color: #C13123;
