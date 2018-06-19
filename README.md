@@ -1,6 +1,7 @@
 # Rebellion
 
 > Aplicacion Rebelion en Vue
+> Ver Memoria PDF para más información
 
 ## Build Setup
 
